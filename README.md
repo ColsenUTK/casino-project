@@ -1,6 +1,6 @@
 Casino Project
 
-Project for CS202
+Project for UTK CS202
 By Colsen Murray and Porter Dosch
 Using C++
 
