@@ -2,7 +2,13 @@
 
 Casino::Casino(double life_savings) {
 
-    //
+    totalBands = life_savings;
+
+}
+
+double Casino::getBalance() const {
+
+    return totalBands;
 
 }
 

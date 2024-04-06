@@ -20,9 +20,11 @@ class Casino {
 
         // edge cases: negative money; realistic amt (upper limit); must be a valid cash amount (two decimal places)
         void cashPaycheck(double rent_money);       // add funds without playing a game     // Colsen
+        
+        double getBalance() const;
 
         // edge cases: every bad user input; bad bet call
-        void playGame();                            // driver function for gameplay         // Porter
+        void play();                            // driver function for gameplay         // Porter
 
         // edge cases: funds >= 0; invalid bet; general incorrect gameplay error-checking
         double playBlackjack(int bet);      // returns the amt won/lost                     // Colsen

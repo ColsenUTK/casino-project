@@ -2,14 +2,14 @@ CXX=		g++
 CXXFLAGS=	-g -Wall -std=gnu++11
 SHELL=		bash
 
-all:		bin/test
+all:		bin/main
 
-bin/test:	dev/main.cpp
+bin/main:	dev/main.cpp dev/Casino_Colsen.cpp dev/Casino_Porter.cpp dev/CardDeck.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 clean:
-	rm -f bin/test
+	rm -f bin/main
 
-main:	bin/test
+main:	bin/main
 	@echo Running main...
-	./bin/test
+	./bin/main

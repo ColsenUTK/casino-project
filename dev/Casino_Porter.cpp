@@ -1,8 +1,9 @@
 #include "Casino.h"
+#include <iomanip>
 
-void Casino::playGame() {
+void Casino::play() {
 
-    //
+    cout << fixed << setprecision(2) << "Played with balance $" << totalBands << '\n';
 
 }
 
