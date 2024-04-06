@@ -1,13 +1,14 @@
 #include "Casino.h"
-#include <iomanip>
 
 void Casino::play() {
-
-    cout << fixed << setprecision(2) << "Played with balance $" << totalBands << '\n';
+    // reference for how to call blackjack func
+        // CardDeck *deck = new CardDeck;
+        // balance += playBlackjack(deck, 100);
+        // delete deck;
 
 }
 
-double Casino::playSlots(int bet) {
+double Casino::playSlots(double bet) {
 
     
     return 0;
