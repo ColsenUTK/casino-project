@@ -17,76 +17,162 @@ void printSlots(string[]);
 double bigWin(string[], double);
 
 void Casino::play() {
-    // reference for how to call blackjack func
-        // CardDeck *deck = new CardDeck;
-        // balance += playBlackjack(deck, 100);
-        // delete deck;
+    while(1) {
+        char input; // to store input.
+        cout << "Enter a command. (h) for help." << endl;
 
+        if(cin >> input) {
+            if(input == 'q' || input == 'Q') {
+                break; // if input is q, quit.
+            }
+
+            else if(input == 'h' || input == 'H') {
+                // function to describe commands.
+                cout << "Commands:\nA: Add money to balance.\nB: Play blackjack.\n";
+                cout << "S: Play slots.\nC: Coin Flip - double or nothing\nR: Play Roulette.\n\n";
+            }
+
+            else if(input == 'a' || input == 'A') {
+                // function to add money to balance. 
+                double funds;
+                // error checking. this same code is run for every single function that requires input.
+                cout << "Input amount of money to add: ";
+                while(1) {
+                    if(cin >> funds) {
+                        if(funds > 0) { // check if the value is non-negative.
+                        break;
+                        }
+                    }
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n";
+                    cout << "Input amount of money to add: ";
+                }
+
+                addMoney(funds);
+            }
+
+            else if(input == 'b' || input == 'B') {
+                // Blackjack
+                double bet;
+                cout << "Input bet: ";
+                while(1) {
+                    if(cin >> bet) {
+                        if(checkBet(bet, balance)) {
+                            break;
+                        }
+                    }
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n"                cout << "Input bet: ";
+                }
+                balance -= bet;
+                CardDeck *deck = new CardDeck;
+                balance += playBlackjack(deck, bet);
+                delete deck;
+            }
+
+            else if(input == 'S' || input == 's') {
+                // Slots
+                double bet;
+                cout << "Input bet: ";
+                while(1) {
+                    if(cin >> bet) {
+                        if(checkBet(bet, balance)) {
+                            break;
+                        }
+                    }
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n"                cout << "Input bet: ";
+                }
+                balance -= bet;
+                balance += playSlots(bet);
+            }
+
+            else if(input == 'C' || input == 'c') {
+                // Coinflip
+                double bet;
+                cout << "Input bet: ";
+                while(1) {
+                    if(cin >> bet) {
+                        if(checkBet(bet, balance)) {
+                            break;
+                        }
+                    }
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n"                cout << "Input bet: ";
+                }
+                balance -= bet;
+                balance += playCoinFlip(bet);
+            }
+
+            else if(input == 'R' || input == 'r') {
+                // Roulette
+                double bet;
+                cout << "Input bet: ";
+                while(1) {
+                    if(cin >> bet) {
+                        if(checkBet(bet, balance)) {
+                            break;
+                        }
+                    }
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n"                cout << "Input bet: ";
+                }
+                balance -= bet;
+                balance += playRoulette(bet);
+            }
+        cout << "Current balance: " << balance << "\n\n";
+        }
+    }
 }
 
-void Casino::void playSlots() {
+double Casino::void playSlots(double inputBet) {
     // Providing a seed value
 	srand((unsigned) time(NULL));
-    double totalBalance = 200; // for testing
     string slotMachine[9]; // to store final values
-     // initialize slots 
+    // initialize slots 
     list<string> slots{"blank", "blank", "blank", "blank", "7", "7", "7", "777", "777", "777", "bar", "bar", "bar", "bar", "diamond", "diamond", "diamond", "10x", "50x", "100x"}; // to store the values for rolling
-    double bet;
+    double bet = inputBet;
     double win;
     int numSpins;
 
-    // ask user to input a bet, then check the bet.
-    cout << "Input bet: ";
-    
-    while(1) {
-        if(cin >> bet) {
-            break;
-        }
+    // roll and output the reward.
+    roll(slots, slotMachine);
 
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Invalid bet. Please enter a numerical value.\n\n";
-        cout << "Input bet: ";
+    printSlots(slotMachine);
+        
+    win = bigWin(slotMachine, bet);
+
+    // TODO : different outputs for different win values.
+    if(win < 2*bet) {
+        cout << "Payout: " << win << "\n\n";
     }
-    
-    if(checkBet(bet, totalBalance)) {
-        totalBalance -= bet;
-        // roll and output the reward.
-        roll(slots, slotMachine);
 
-        printSlots(slotMachine);
+    else if(win < 8*bet) {
+        cout << "Big win!\n" << win << "\n\n";
+    }
         
-        win = bigWin(slotMachine, bet);
+    else if(win < 8*bet) {
+        cout << "Big win!\n" << win << "\n\n";
+    }
 
-        // TODO : different outputs for different win values.
-        if(win < 2*bet) {
-            cout << "Payout: " << win << "\n\n";
-        }
+    else if(win < 20*bet) {
+        cout << "Massive win!\n" << win << "\n\n";
+    }
 
-        else if(win < 8*bet) {
-            cout << "Big win!\n" << win << "\n\n";
-        }
-        
-        else if(win < 8*bet) {
-            cout << "Big win!\n" << win << "\n\n";
-        }
-
-        else if(win < 20*bet) {
-            cout << "Massive win!\n" << win << "\n\n";
-        }
-
-        else if(win < 50*bet) {
-            cout << "Magnificent win!\n" << win << "\n\n";
-        }
-
-        else {
-            cout << "Tremendous!\n" << win << "\n\n";
-        }
+    else if(win < 50*bet) {
+        cout << "Magnificent win!\n" << win << "\n\n";
     }
 
     else {
-        cout << "Invalid bet." << "\n";
+        cout << "Tremendous!\n" << win << "\n\n";
     }
+    
+    return win;
 }
 
 void printSlots(string slots[]) {
