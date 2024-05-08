@@ -1,6 +1,6 @@
 #include "Casino.h"
 
-string cardConvertString(int);      // converts the card number into the card name as a string
+string cardConvertString(int);      // converts the card number into the card name as a string 
 
 void printDivider();                // for formatting purposes
 
