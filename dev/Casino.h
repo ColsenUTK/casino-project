@@ -7,6 +7,14 @@
 #define CASINO_H
 
 #include "CardDeck.h"
+#include <cstddef>
+#include <vector>
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <unistd.h>
+#include <cmath>
+#include <string>
 
 class Casino {
 
@@ -27,7 +35,7 @@ class Casino {
         double playBlackjack(CardDeck*, double);      // returns the amt won/lost                     // Colsen
         double playSlots(double);          // returns the amt won/lost                     // Porter
         double playCoinFlip(double);       // returns the amt won/lost                     // Colsen
-        double playRoulette(double);       // returns the amt won/lost                     // Colsen
+        void playRoulette();       // returns the amt won/lost                     // Colsen
 
     private:
         double balance;      // current player balance
