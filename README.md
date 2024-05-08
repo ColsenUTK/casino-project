@@ -11,4 +11,3 @@ Makefile Commands:
     2. make main: compiles all files and executes main
     3. make clean: removes main executable
 
-Dependencies:

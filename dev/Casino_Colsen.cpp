@@ -4,35 +4,36 @@ string cardConvertString(int);      // converts the card number into the card na
 
 void printDivider();                // for formatting purposes
 
-int vectorSum(vector<int> &);
+int vectorSum(vector<int> &);       // helper for blackjack
 
-bool checkForAce(vector<int> &);
+bool checkForAce(vector<int> &);    // helper for blackjack
 
-void numToCard(int &card);
+void numToCard(int &card);      // helper for blackjack
 
-void print_wheel(vector<string> &arr);
+void print_wheel(vector<string> &arr);      // helper to display wheel
 
-void shift_wheel(vector<string> &arr);
+void shift_wheel(vector<string> &arr);      // shifts wheel 1 space to the clockwise direction
 
-string spin_wheel(vector<string> &arr);
+string spin_wheel(vector<string> &arr);     // SPIN WHEEL GO WEEEEEEEEEE
 
-bool in_vec(string val, vector<string> &arr);
+bool in_vec(string val, vector<string> &arr);   // finds if a val is in a vector
 
-double bet_results_roulette(string result_num, vector< vector<string>> bet_nums, vector<double> bets, vector<double> odds);
+double bet_results_roulette(string result_num, vector< vector<string>> bet_nums, vector<double> bets, vector<double> odds);     // gets the money won/lost from a spin
 
-void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vector<string>> &bet_nums);
+void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vector<string>> &bet_nums);                        // mini-client for setting and resetting bets
 
-void print_bet_table_roulette();
+void print_bet_table_roulette();    // table of potential bets
 
-// done
+
 void printDivider() {
 
     cout << "---------------------------------------------\n\n";
 
 }
 
-// done
+
 int vectorSum(vector<int> &hand) {
+    // gets the point sum of a player's hand
     int sum = 0;
 
     for (size_t i = 0; i < hand.size(); i++)
@@ -41,10 +42,10 @@ int vectorSum(vector<int> &hand) {
     return sum;
 }
 
-// done
-bool checkForAce(vector<int> &hand) {
-    bool isAce = false;
 
+bool checkForAce(vector<int> &hand) {
+    // returns true if a given card is an ace
+    bool isAce = false;
     for ( size_t i = 0; i < hand.size(); i++ )
         if (hand[i] == 11)
             isAce = true;
@@ -52,16 +53,18 @@ bool checkForAce(vector<int> &hand) {
     return isAce;
 }
 
-// done
+
 void numToCard(int &card) {
+    // returns a face card or ace as a point value
     if ( card == 11 || card == 12 || card == 13 )
         card = 10;
     else if ( card == 1 )
         card = 11;
 }
 
-// done
+
 string cardConvertString(int card) {
+    // converts a numeric card to a string
     if ( card == 11 ) {
         return "Jack";
     } else if ( card == 12 ) {
@@ -76,18 +79,16 @@ string cardConvertString(int card) {
 }
 
 
-
-// done
 Casino::Casino(double startMoney) {   // constructor (default 1000)
     balance = startMoney;
 }
 
-// done
+
 double Casino::getBalance() const {     // accessor for current balance
     return balance;
 }
 
-// done
+
 bool Casino::checkValidBalance() const {    // returns true if balance is > 0 and < 1 billion
     bool non_zero = balance > 0;
     bool upper_lim = balance < 1000000000;
@@ -95,7 +96,7 @@ bool Casino::checkValidBalance() const {    // returns true if balance is > 0 an
     return non_zero && upper_lim;
 }
 
-// done
+
 void Casino::addMoney(double inMoney) {     // adds money to balance
     balance += inMoney;
 }
@@ -105,7 +106,7 @@ double Casino::playBlackjack(CardDeck* deck, double bet) {
 
     bool playerBust = false;        // true if player goes over 21
     bool dealerBust = false;        // true if dealer goes over 21
-    int winLossMultiplier;
+    int winLossMultiplier;          // changes based on the type of win
 
     int playerChoice;
     int deckIndex = 0;              // what card in the deck is being used
@@ -113,10 +114,10 @@ double Casino::playBlackjack(CardDeck* deck, double bet) {
     size_t j;
     string input;
 
-    vector<string> dealerHand(2);
-    vector<string> playerHand(2);
-    vector<int> dealerPointsHand(2);
-    vector<int> playerPointsHand(2);
+    vector<string> dealerHand(2);       // holds the dealer hand in terms of cards
+    vector<string> playerHand(2);       // holds the player hand in terms of cards
+    vector<int> dealerPointsHand(2);    // holds the dealer hand in terms of points
+    vector<int> playerPointsHand(2);    // holds the player hand in terms of points
 
     deck->shuffle();
 
@@ -133,6 +134,7 @@ double Casino::playBlackjack(CardDeck* deck, double bet) {
     // deal cards
     int currentCard;
 
+    // add cards to point and card hands for dealer
     for (int i = 0; i < 2; i++) {
         currentCard = deck->deal(deckIndex++) % 13 + 1;
         dealerHand[i] = cardConvertString(currentCard);
@@ -140,6 +142,7 @@ double Casino::playBlackjack(CardDeck* deck, double bet) {
         dealerPointsHand[i] = currentCard;
     }
 
+    // add cards to point and card hands for player
     for (int i = 0; i < 2; i++) {
         currentCard = deck->deal(deckIndex++) % 13 + 1;
         playerHand[i] = cardConvertString(currentCard);
@@ -156,6 +159,8 @@ double Casino::playBlackjack(CardDeck* deck, double bet) {
 
     if (vectorSum(dealerPointsHand) == 21 && vectorSum(playerPointsHand) == 21) {
         // tie
+
+        // print double blackjack case
         cout << "\nDealer Cards Are: " << dealerHand[0] << dealerHand[1];
         cout << "\nDouble Blackjack: Push\n";
         winLossMultiplier = 0;
@@ -163,12 +168,16 @@ double Casino::playBlackjack(CardDeck* deck, double bet) {
 
     if (vectorSum(playerPointsHand) == 21) {
         // player wins
+
+        // print player blackjack case
         cout << "\n\nPlayer Blackjack!\n";
         return 1.5 * bet;
     }
 
     if (vectorSum(dealerPointsHand) == 21) {
         // dealer wins
+
+        // print dealer blackjack case
         cout << "\n\nDealer Cards Are: " << dealerHand[0] << ", " << dealerHand[1];
         cout << "\nDealer Blackjack!\n";
         return -1 * bet;
@@ -196,17 +205,12 @@ double Casino::playBlackjack(CardDeck* deck, double bet) {
             }
             cout << '\n';
 
-            // cout << "Player Hand is: " << playerPointsHand[0];
-            // for (j = 1; j < playerHand.size(); j++) {
-            //     cout << ", " << playerPointsHand[j];
-            // }
-            // cout << '\n';
-
         } else if (playerChoice == 2) {
             // stand
             break;
 
         } else {
+            // error case
             cerr << "INVALID CHOICE. PLEASE TRY AGAIN." << '\n';
             playerChoice = 0;
             cin.clear();
@@ -214,7 +218,7 @@ double Casino::playBlackjack(CardDeck* deck, double bet) {
 
         // check for over 21 points
         if ( vectorSum(playerPointsHand) > 21) {
-            
+            // handle ace case for player busts
             if ( checkForAce(playerPointsHand) ) {
                 for (size_t i = 0; i < playerPointsHand.size(); i++)
                     if ( playerPointsHand[i] == 11 )
@@ -238,13 +242,16 @@ double Casino::playBlackjack(CardDeck* deck, double bet) {
         // dealer hits until 17 points
         while (vectorSum(dealerPointsHand) < 17) {
 
+            // add cards to both lists
             currentCard = deck->deal(deckIndex++) % 13 + 1;
             dealerHand.push_back(cardConvertString(currentCard));
             numToCard(currentCard);
             dealerPointsHand.push_back(currentCard);
 
+            // if dealers busts
             if ( vectorSum(dealerPointsHand) > 21 ) {
 
+                // handle ace case
                 if (checkForAce(dealerPointsHand)) {
 
                     for (size_t i = 0; i < dealerPointsHand.size(); i++)
@@ -314,37 +321,39 @@ double Casino::playBlackjack(CardDeck* deck, double bet) {
 
 
 double Casino::playCoinFlip(double bet) {
+    // randomly generate coin flip
     srand(time(0));
     int flip = rand() % 2;
 
     cout << "Call Heads [1] or Tails [2].\n";
     cout << ">  ";
-
     int input;
     cin >> input;
 
-    cout << flip << '\n';
+    // output result
     printf("You %s!\n", (flip + 1) == input ? "Win" : "Lose");
     
+    // return lost or won money 
     return (flip + 1) == input ? bet : -1 * bet;
 
 }
 
 
 void Casino::playRoulette() {
-
+    // standard American Wheel Nums
     vector<string> wheelNums = {"0", "28", "9", "26", "30", "11", "7", "20", "32", 
                             "17", "5", "22", "34", "15", "3", "24", "36", 
                             "13", "1", "00", "27", "10", "25", "29", "12", 
                             "8", "19", "31", "18", "6", "21", "33", "16", 
                             "4", "23", "35", "14", "2"};
 
+    // random time seeding
     srand(time(0));
 
     string answer;
-    vector< vector<string>> bet_nums;
-    vector<double> odds, bets;
-    double bet_result;
+    vector< vector<string>> bet_nums;   // lists of buckets of winning nums
+    vector<double> odds, bets;          // lists of the bets made and their respective odds
+    double bet_result;                  // win/loss sum after a spin
 
     while (true) {
         cout << "\nWhat would you like to do?\n";
@@ -356,24 +365,26 @@ void Casino::playRoulette() {
         cin >> answer;
 
         if (answer == "B" || answer == "b" || answer == "1") {
-            
+            // run bet engine
             bet_engine_roulette(odds, bets, bet_nums);
 
         } else if (answer == "S" || answer == "s" || answer == "2") {
-            
+            // must have made a bet
             if (bets.size() < 1) {
                 cerr << "No Bets Set. Please make a bet before spinning." << endl;
                 continue;
             }
-                
+            
+            // SPIN THE WHEEL WOOOOOOOOOO
             string winning_num = spin_wheel(wheelNums);
 
+            // negative for a loss, positive for a win
             bet_result = bet_results_roulette(winning_num, bet_nums, bets, odds);
 
             printf("Winning Num:  %s\n", &winning_num[0]);
-            printf("You %s $%.2f\n", bet_result >= 0 ? "Win" : "Lose", abs(bet_result));
+            printf("You %s $%.2f\n", bet_result >= 0 ? "Win" : "Lose", abs(bet_result)); // shows the absolute value of the win/loss
 
-            balance += bet_result;
+            balance += bet_result; // update balance
             printf("New Balance:  $%.2f", balance);
 
         } else if (answer == "Q" || answer == "q" || answer == "3") {
@@ -386,6 +397,7 @@ void Casino::playRoulette() {
     }
 
 }
+
 
 void print_bet_table_roulette() {
 
@@ -407,12 +419,13 @@ void print_bet_table_roulette() {
 
 }
 
+// mini-client for setting and resetting bets
 void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vector<string>> &bet_nums) {
     
     print_bet_table_roulette();
     printf("Welcome to the Bet System!\n\n");
 
-    while (true) {
+    while (true) { // loop for improper input checks
         printf("What would you like to do?\n");
         printf("  1. Reset all bets [R/r]\n");
         printf("  2. Add a new bet  [A/a]\n");
@@ -422,13 +435,15 @@ void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vec
         cin >> input;
 
         if (input == "R" || input == "r" || input == "1") {
+            // reset all bet vecs
             bets.resize(0);
             odds.resize(0);
             bet_nums.resize(0);
             break;
+
         } else if (input == "A" || input == "a" || input == "2") {
             
-            while (true) {
+            while (true) {  // loop for improper input checks
 
                 int bet;
                 printf("How much would you like to bet?\n");
@@ -436,6 +451,7 @@ void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vec
                 cin >> bet;
                 cout << '\n';
 
+                // add bet to the list of bets
                 bets.push_back(bet);
 
                 printf("What bet would you like to make? (Choose a Number)\n");
@@ -446,22 +462,24 @@ void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vec
                 printf("  5. 3rd 12 [2:1 odds]\n");
                 printf("  6. Evens [1:1 odds]\n");
                 printf("  7. Odds [1:1 odds]\n");
-                printf("  8. Black [1:1 odds]\n");
-                printf("  9. Red [1:1 odds]\n");
-                printf("  10. Single Number [35:1 odds]\n");
+                printf("  8. Black [1:1 odds]\n");              // It is not lost on me that the console is black and white. You'll just
+                printf("  9. Red [1:1 odds]\n");                // have to believe that what I say is correct  (:   <- that face would never lie
+                printf("  10. Single Number [35:1 odds]\n"); 
                 printf(">  ");
 
                 string input2;
                 cin >> input2;
 
+                // see above issue with a monochromatic console :/
                 vector<string> blacks = {"2", "4", "6", "8", "10", "11", "13", "15", "17", "20", "22", "24", "26", "28", "29", "31", "33", "35"};
                 vector<string> reds = {"1", "3", "5", "7", "9", "12", "14", "16", "18", "19", "21", "23", "25", "27", "30", "32", "34", "36"};
                 vector<string> tmpVec;
 
                 if (input2 == "1") {
                     // 1-18
-                    odds.push_back(1);
+                    odds.push_back(1); // 1:1 odds
 
+                    // add relevent nums to the tmpVec then add that to the list of buckets of nums
                     for (int i = 1; i < 19; i++)
                         tmpVec.push_back(to_string(i));
 
@@ -469,8 +487,9 @@ void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vec
 
                 } else if (input2 == "2") {
                     // 19-36
-                    odds.push_back(1);
+                    odds.push_back(1); // 1:1 odds
 
+                    // add relevent nums to the tmpVec then add that to the list of buckets of nums
                     for (int i = 19; i < 37; i++)
                         tmpVec.push_back(to_string(i));
 
@@ -478,8 +497,9 @@ void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vec
 
                 } else if (input2 == "3") {
                     // 1st 12
-                    odds.push_back(2);
-
+                    odds.push_back(2); // 2:1 odds
+                    
+                    // add relevent nums to the tmpVec then add that to the list of buckets of nums
                     for (int i = 1; i < 13; i++)
                         tmpVec.push_back(to_string(i));
 
@@ -487,8 +507,9 @@ void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vec
 
                 } else if (input2 == "4") {
                     // 2nd 12
-                    odds.push_back(2);
+                    odds.push_back(2); // 2:1 odds
 
+                    // add relevent nums to the tmpVec then add that to the list of buckets of nums
                     for (int i = 13; i < 25; i++)
                         tmpVec.push_back(to_string(i));
 
@@ -496,8 +517,9 @@ void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vec
 
                 } else if (input2 == "5") {
                     // 3rd 12
-                    odds.push_back(2);
+                    odds.push_back(2); // 2:1 odds
 
+                    // add relevent nums to the tmpVec then add that to the list of buckets of nums
                     for (int i = 25; i < 37; i++)
                         tmpVec.push_back(to_string(i));
 
@@ -505,8 +527,9 @@ void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vec
 
                 } else if (input2 == "6") {
                     // Evens
-                    odds.push_back(1);
+                    odds.push_back(1); // 1:1 odds
 
+                    // add relevent nums to the tmpVec then add that to the list of buckets of nums
                     for (int i = 2; i < 37; i+=2)
                         tmpVec.push_back(to_string(i));
 
@@ -514,8 +537,9 @@ void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vec
 
                 } else if (input2 == "7") {
                     // Odds
-                    odds.push_back(1);
+                    odds.push_back(1); // 1:1 odds
 
+                    // add relevent nums to the tmpVec then add that to the list of buckets of nums
                     for (int i = 1; i < 37; i+=2)
                         tmpVec.push_back(to_string(i));
 
@@ -523,23 +547,26 @@ void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vec
 
                 } else if (input2 == "8") {
                     // Blacks
-                    odds.push_back(1);
+                    odds.push_back(1); // 1:1 odds
 
+                    // add premade vec to vector of buckets of nums
                     bet_nums.push_back(blacks);
 
                 } else if (input2 == "9") {
                     // Reds
-                    odds.push_back(1);
+                    odds.push_back(1); // 1:1 odds
 
+                    // add premade vec to vector of buckets of nums
                     bet_nums.push_back(reds);
 
                 } else if (input2 == "10") {
                     // single
-                    odds.push_back(35);
+                    odds.push_back(35); // 35:1 odds (BIG WIN)
                     printf("What Number?");
                     string num;
                     cin >> num;
 
+                    // add that num as a potential winner
                     bet_nums.push_back({num});
 
                 } else {
@@ -563,14 +590,16 @@ void bet_engine_roulette(vector<double> &odds, vector<double> &bets, vector< vec
 }
 
 void print_wheel(vector<string> &arr) {
+    // I lost years of my life formatting this stupid function.
+    // If I did this at a company, I would have charged hazard pay
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     printf("\n----------------------------------------------\n");
     printf("|                                            |\n");
-    printf("|                %*s%*s%*s%*s                |\n", 3, &arr[0][0], 3, &arr[1][0], 3, &arr[2][0], 3, &arr[3][0]);
-    printf("|          %*s%*s            %*s%*s          |\n", 3, &arr[36][0], 3, &arr[37][0], 3, &arr[4][0], 3, &arr[5][0]);
-    printf("|       %*s                        %*s       |\n", 3, &arr[35][0], 3, &arr[6][0]);
-    printf("|    %*s                              %*s    |\n", 3, &arr[34][0], 3, &arr[7][0]);
+    printf("|                %*s%*s%*s%*s                |\n", 3, &arr[0][0], 3, &arr[1][0], 3, &arr[2][0], 3, &arr[3][0]);     // For whatever reason, printf
+    printf("|          %*s%*s            %*s%*s          |\n", 3, &arr[36][0], 3, &arr[37][0], 3, &arr[4][0], 3, &arr[5][0]);   // only takes arrays of chars,
+    printf("|       %*s                        %*s       |\n", 3, &arr[35][0], 3, &arr[6][0]);                                  // not stl strings. Made things
+    printf("|    %*s                              %*s    |\n", 3, &arr[34][0], 3, &arr[7][0]);                                  // very fun
     printf("|    %*s                              %*s    |\n", 3, &arr[33][0], 3, &arr[8][0]);
     printf("| %*s                                    %*s |\n", 3, &arr[32][0], 3, &arr[9][0]);
     printf("| %*s                                    %*s |\n", 3, &arr[31][0], 3, &arr[10][0]);
@@ -586,31 +615,36 @@ void print_wheel(vector<string> &arr) {
     printf("----------------------------------------------\n\n");
 }
 
+// shift vector that wheel is based on to the right one. 
 void shift_wheel(vector<string> &arr) {
     string tmpVal = arr[37];
     string previous_val = arr[0];
     string current_val;
+
+    // replace each index with the val to its left
     for (int i = 1; i < 38; i++) {
         current_val = arr[i];
         arr[i] = previous_val;
         previous_val = current_val;
     }
-    arr[0] = tmpVal;
+    arr[0] = tmpVal; // set first val to the saved final val
 }
 
 string spin_wheel(vector<string> &arr) {
-    int num_rotations = rand() % (228 - 38 + 1) + 38;
+    int num_rotations = rand() % (228 - 38 + 1) + 38;   // randomize the number of right shifts (minimum is 1 rotation. maximum is 6 rotations)
 
     print_wheel(arr);
     for (int i = 0; i < num_rotations; i++) {
-        double multiplier = (double)i / num_rotations;
-        usleep( 15000 + 500000 * ( pow(multiplier, 6) ) );
+
+        // I spent an unnecessary amount of time making the wheel slow down over time. I'm very proud of my solution. I named him James
+        // James takes the current shift over total shifts to slow the wheel according to total shift amt
+        usleep( 15000 + 500000 * ( pow((double)i / num_rotations, 6) ) );
 
         shift_wheel(arr);
         print_wheel(arr);
     }
     usleep(1000000);
-    return arr[11];
+    return arr[11]; // return the num at the pointer
 }
 
 bool in_vec(string val, vector<string> &arr) {
@@ -624,12 +658,14 @@ bool in_vec(string val, vector<string> &arr) {
 double bet_results_roulette(string result_num, vector< vector<string>> bet_nums, vector<double> bets, vector<double> odds) {
     double money_won_lost = 0;
 
+    // iterate through all bets to find each result
     for (size_t i = 0; i < bets.size(); i++) {
 
+        // if the winning num is in a bucket, it's a win for that bet
         if (in_vec(result_num, bet_nums[i]))
             money_won_lost += odds[i] * bets[i];
         else
-            money_won_lost -= bets[i];
+            money_won_lost -= bets[i];      // can't lose more than you bet
 
     }
 
