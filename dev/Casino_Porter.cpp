@@ -18,6 +18,8 @@ void printSlots(string[]);
 double bigWin(string[], double);
 
 void Casino::play() {
+    srand(time(0));
+
     while(1) {
         char input; // to store input.
         cout << "Enter a command. (h) for help." << endl;
@@ -67,7 +69,6 @@ void Casino::play() {
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n" << "Input bet: ";
                 }
-                balance -= bet;
                 CardDeck *deck = new CardDeck;
                 balance += playBlackjack(deck, bet);
                 delete deck;
@@ -105,7 +106,6 @@ void Casino::play() {
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n" << "Input bet: ";
                 }
-                balance -= bet;
                 balance += playCoinFlip(bet);
             }
 
