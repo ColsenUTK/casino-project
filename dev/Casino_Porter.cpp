@@ -65,7 +65,7 @@ void Casino::play() {
                     }
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n"                cout << "Input bet: ";
+                cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n" << "Input bet: ";
                 }
                 balance -= bet;
                 CardDeck *deck = new CardDeck;
@@ -85,7 +85,7 @@ void Casino::play() {
                     }
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n"                cout << "Input bet: ";
+                cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n" << "Input bet: ";
                 }
                 balance -= bet;
                 balance += playSlots(bet);
@@ -103,7 +103,7 @@ void Casino::play() {
                     }
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n"                cout << "Input bet: ";
+                cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n" << "Input bet: ";
                 }
                 balance -= bet;
                 balance += playCoinFlip(bet);
@@ -111,27 +111,14 @@ void Casino::play() {
 
             else if(input == 'R' || input == 'r') {
                 // Roulette
-                double bet;
-                cout << "Input bet: ";
-                while(1) {
-                    if(cin >> bet) {
-                        if(checkBet(bet, balance)) {
-                            break;
-                        }
-                    }
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n"                cout << "Input bet: ";
-                }
-                balance -= bet;
-                balance += playRoulette(bet);
+                playRoulette();
             }
         cout << "Current balance: " << balance << "\n\n";
         }
     }
 }
 
-double Casino::void playSlots(double inputBet) {
+double Casino::playSlots(double inputBet) {
     // Providing a seed value
 	srand((unsigned) time(NULL));
     string slotMachine[9]; // to store final values
