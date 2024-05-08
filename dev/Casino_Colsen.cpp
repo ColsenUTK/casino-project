@@ -324,7 +324,7 @@ double Casino::playCoinFlip(double bet) {
     cin >> input;
 
     cout << flip << '\n';
-    printf("You %s!", (flip + 1) == input ? "Win" : "Lose");
+    printf("You %s!\n", (flip + 1) == input ? "Win" : "Lose");
     
     return (flip + 1) == input ? bet : -1 * bet;
 

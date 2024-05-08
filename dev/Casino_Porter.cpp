@@ -18,6 +18,8 @@ void printSlots(string[]);
 double bigWin(string[], double);
 
 void Casino::play() {
+    srand(time(0));
+
     while(1) {
         char input; // to store input.
         cout << "Enter a command. (h) for help." << endl;
@@ -67,7 +69,6 @@ void Casino::play() {
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n" << "Input bet: ";
                 }
-                balance -= bet;
                 CardDeck *deck = new CardDeck;
                 balance += playBlackjack(deck, bet);
                 delete deck;
@@ -105,7 +106,6 @@ void Casino::play() {
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid amount. Please enter a non-negative numerical value. Must be no greater than available balance.\n\n" << "Input bet: ";
                 }
-                balance -= bet;
                 balance += playCoinFlip(bet);
             }
 
@@ -126,7 +126,6 @@ double Casino::playSlots(double inputBet) {
     list<string> slots{"blank", "blank", "blank", "blank", "7", "7", "7", "777", "777", "777", "bar", "bar", "bar", "bar", "diamond", "diamond", "diamond", "10x", "50x", "100x"}; // to store the values for rolling
     double bet = inputBet;
     double win;
-    int numSpins;
 
     // roll and output the reward.
     roll(slots, slotMachine);
@@ -305,7 +304,7 @@ double bigWin(string slots[], double bet) {
 
 bool checkBet(double bet, double balance) {
     // check the input bet against the user balance.
-    return balance > bet;
+    return balance >= bet;
 }
 
 void roll(list<string> & slots, string slotMachine[]) {
