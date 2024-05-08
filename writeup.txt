@@ -1,0 +1,8 @@
+What went well: Every function we sought out to create from the onset ended up being made, so the casino has the full functionality that we originally intended.
+What went less well: Planning in synchronizing our halves of the code did not go as well as planned. For example, the Blackjack function returns a negative value if 
+    you lose your initial bet, but the play() function had expected it to only return 0. As a result, double the actual amount was being lost. Although this was a relatively quick fix,
+    in a larger codebase, this could have caused more widespread issues, so it is definitely something to be cognizant of in the future.
+What you may have learned: Primarily, using git to manage a codebase. Other than that, the project was a nice refresher on almost every topic covered in 202, from vectors
+to random number generation to sets. 
+Why you should get full discretionary points: The code covers a wide range of functions that showcase significant positive learning outcomes and growth from topics covered this semester.
+The code is well commented and formatted, and the functions run well, with clear guides on how to use them.
