@@ -1,5 +1,5 @@
 // References: https://cplusplus.com/reference/cstdlib/rand/  https://en.cppreference.com/w/cpp/container/list  https://www.digitalocean.com/community/tutorials/random-number-generator-c-plus-plus
-#include "casino.h"
+#include "Casino.h"
 #include <string>
 #include <limits>
 #include <stdlib.h>
