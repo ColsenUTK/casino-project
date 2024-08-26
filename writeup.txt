@@ -6,3 +6,5 @@ What you may have learned: Primarily, using git to manage a codebase. Other than
 to random number generation to sets. 
 Why you should get full discretionary points: The code covers a wide range of functions that showcase significant positive learning outcomes and growth from topics covered this semester.
 The code is well commented and formatted, and the functions run well, with clear guides on how to use them.
+
+editing the writup file
